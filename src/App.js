@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoginPage from "./components/LoginPage";
+import Recovery from "./components/Recovery";
+import ResetPassword from "./components/ResetPassword";
+import RegistrationType from "./components/RegistrationType";
+import RegistrationCusDetails from "./components/RegistrationCusDetails";
+import RegiCustomerEmail from "./components/RegiCustomerEmail";
+import RegistrationPage from "./components/RegistrationPage";
+import AccountSetting from "./components/AccountSetting";
+import SecuritySetting from "./components/SecuritySetting";
+import DisplayProfile from "./components/DisplayProfile";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/forgotten password" element={<Recovery />} />
+          <Route path="/reset password" element={<ResetPassword />} />
+          <Route path="/registration type" element={<RegistrationType />} />
+          <Route
+            path="/customer registration"
+            element={<RegistrationCusDetails />}
+          />
+          <Route path="/registation email" element={<RegiCustomerEmail />} />
+          <Route path="/register owner" element={<RegistrationPage />} />
+          <Route path="/account setting" element={<AccountSetting />} />
+          <Route path="/security setting" element={<SecuritySetting />} />
+          <Route path="/display profile" element={<DisplayProfile />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
