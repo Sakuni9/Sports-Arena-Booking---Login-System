@@ -1,105 +1,64 @@
-import React from "react";
-
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
-export default function RegiCustomerEmail() {
+function RegiCustomerEmail() {
+  const [open, setOpen] = useState(true);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <div>
-      <div>
-        <div
-          style={{
-            marginTop: "-170px",
-            marginBottom: "40px",
-            marginLeft: "300px",
-          }}
-        >
-          <img
-            src="Group 15.png"
-            alt="playground"
-            style={{ width: "400px", height: "560px" }}
-          />
-          <img
-            src="Arena Logo .png"
-            alt="logo"
+    <div className="App">
+      <header>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle
             style={{
-              width: "90px",
-              height: "50px",
-              marginTop: "230px",
-              marginBottom: "470px",
-              marginLeft: "-370px",
-            }}
-          />
-          <img
-            src="explore .png"
-            alt="ground"
-            style={{
-              width: "220px",
-              height: "200px",
-              marginTop: "200px",
-              marginBottom: "230px",
-              marginLeft: "-20px",
-            }}
-          />
-          <img
-            src="pngkey 1.png"
-            alt="pngkey"
-            style={{
-              width: "290px",
-              height: "290px",
-
-              marginBottom: "-20px",
-              marginLeft: "-230px",
-            }}
-          />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            backgroundColor: "#eeee",
-            width: "400px",
-            height: "560px",
-            marginTop: "-605px",
-            marginBottom: "20px",
-            marginLeft: "670px",
-          }}
-        ></div>
-        <form>
-          <h2
-            style={{
-              position: "absolute",
-              marginTop: "-405px",
-              marginBottom: "20px",
-              marginLeft: "740px",
-              fontFamily: "Inter",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              gap: "10px",
               color: "#1C5555",
+              fontWeight: "bold",
+              marginLeft: "20px", // Adjust the left margin to change the position
             }}
           >
-            Check your email inbox
-          </h2>
-
-          <Link>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                m: 1,
-                width: "170px",
-
-                backgroundColor: "#1C5555", // Set the background color
-                "&:hover": {
-                  backgroundColor: "#1C5555", // Set the hover color
-                },
-                position: "relative", // Set the position to relative
-                top: "-290px", // Modify the top value
-                left: "760px", // Modify the left value
+            <CheckCircleIcon
+              style={{
+                width: "40px",
+                height: "30px",
+                color: "#1C5555",
               }}
-            >
-              Resend
-            </Button>
-          </Link>
-        </form>
-      </div>
+            />
+            <span>Check your email box</span>
+          </DialogTitle>
+          <Button
+            type="submit"
+            variant="contained"
+            className="btn"
+            onClick={handleClose}
+            sx={{
+              width: { sm: 70, md: 150 },
+              "&.MuiInputBase-root": {
+                height: 65,
+              },
+              backgroundColor: "#1C5555",
+              "&:hover": {
+                backgroundColor: "#1C5555",
+              },
+              margin: "20px auto",
+              display: "block",
+            }}
+          >
+            RESEND
+          </Button>
+        </Dialog>
+      </header>
     </div>
   );
 }
+
+export default RegiCustomerEmail;

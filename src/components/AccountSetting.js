@@ -1,121 +1,45 @@
-import React from "react"; // import React
-import TextField from "@mui/material/TextField";
+import React, { useState } from "react";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
 
 function AccountSetting() {
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleResend = () => {
+    // Logic for resending the email
+    setOpen(true);
+  };
+
   return (
     <div className="App">
-      <header
-        style={{
-          padding: "0 20px 0 20px",
-          position: "absolute",
-          width: "690px",
-          height: "370px",
-          left: "420px",
-          top: "180px",
-          backgroundColor: "#EEEEEE",
-          borderRadius: "5px",
-          padding: "0 25px 0 20px",
-        }}
-      >
-        <div
-          style={{
-            borderLleft: "3px solid #0e351f",
-            height: "320px",
-            position: "absolute",
-            left: "-30px",
-            marginLeft: "-3px",
-            top: "0",
-          }}
-        ></div>
-
-        {/* Title of the page */}
-        <h2
-          style={{
-            position: "absolute",
-            width: "275px",
-            height: "42px",
-            left: "60px",
-            top: "26px",
-            fontFamiliy: "Inter",
-            lineHeight: "19px",
-            color: "#1C5555",
-          }}
-        >
-          Account Setting
-        </h2>
-        <form>
-          <TextField
-            sx={{
-              width: { sm: 100, md: 250 },
-              "& .MuiInputBase-root": {
-                height: 45,
-              },
-            }}
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="First Name"
-            name="fname"
-            autoComplete="fname"
-            autoFocus
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>
+          <CheckCircleIcon
             style={{
-              marginTop: "100px",
-              marginBottom: "20px",
-              marginLeft: "40px",
-              fontFamily: "Inter",
-              fontSize: "14px",
+              width: "60px",
+              height: "39px",
+              color: "#1C5555",
             }}
           />
-
-          <TextField
-            sx={{
-              width: { sm: 100, md: 250 },
-              "& .MuiInputBase-root": {
-                height: 45,
-              },
-            }}
-            margin="normal"
-            required
-            fullWidth
-            id="name"
-            label="Last Name"
-            name="Lname"
-            autoComplete="Lname"
-            autoFocus
+        </DialogTitle>
+        <DialogContent>
+          <h3
             style={{
-              marginTop: "-65px",
-              marginBottom: "20px",
-              marginLeft: "350px",
+              color: "#1C5555",
+              fontWeight: "bold",
+              fontSize: "26px",
               fontFamily: "Inter",
-              fontSize: "14px",
             }}
-          />
-
-          <TextField
-            sx={{
-              width: { sm: 100, md: 250 },
-              "& .MuiInputBase-root": {
-                height: 45,
-              },
-            }}
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            style={{
-              marginTop: "0px",
-              marginBottom: "20px",
-              marginLeft: "40px",
-              fontFamily: "Inter",
-              fontSize: "14px",
-            }}
-          />
+          >
+            Check your email box
+          </h3>
           <Button
             type="submit"
             variant="contained"
@@ -129,16 +53,17 @@ function AccountSetting() {
               "&:hover": {
                 backgroundColor: "#1C5555",
               },
-              position: "absolute",
-              top: "295px",
-              left: "60px",
+              margin: "20px auto",
+              display: "block",
             }}
+            onClick={handleResend}
           >
-            Save
+            RESEND
           </Button>
-        </form>
-      </header>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
+
 export default AccountSetting;

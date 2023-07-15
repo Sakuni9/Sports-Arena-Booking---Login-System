@@ -4,6 +4,10 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import PersonIcon from "@mui/icons-material/Person";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
+import pngkey from "../assets/pngkey 1.png";
+import logo from "../assets/Arena Logo .png";
+import playground from "../assets/Group 15.png";
+import ground from "../assets/ground.png";
 
 export default function RegistrationType() {
   return (
@@ -17,15 +21,15 @@ export default function RegistrationType() {
           }}
         >
           <img
-            src="Group 15.png"
+            src={playground}
             alt="playground"
             style={{ width: "400px", height: "560px" }}
           />
           <img
-            src="Arena Logo .png"
+            src={logo}
             alt="logo"
             style={{
-              width: "90px",
+              width: "80px",
               height: "50px",
               marginTop: "230px",
               marginBottom: "470px",
@@ -33,25 +37,25 @@ export default function RegistrationType() {
             }}
           />
           <img
-            src="explore .png"
+            src={ground}
             alt="ground"
             style={{
               width: "220px",
-              height: "200px",
-              marginTop: "200px",
-              marginBottom: "230px",
+              height: "120px",
+              marginTop: "230px",
+              marginBottom: "310px",
               marginLeft: "-20px",
             }}
           />
           <img
-            src="pngkey 1.png"
+            src={pngkey}
             alt="pngkey"
             style={{
               width: "290px",
               height: "290px",
 
               marginBottom: "-20px",
-              marginLeft: "-230px",
+              marginLeft: "-190px",
             }}
           />
         </div>
@@ -89,11 +93,11 @@ export default function RegistrationType() {
               fontSize: "13px",
             }}
           >
-            Select one of registration types to continue the registration <br />
+            Select one of the registration types to continue the registration
             procedure.
           </span>
           <IconButton
-            aria-label="People"
+            aria-label="Person"
             style={{
               color: "#1C5555",
               fontSize: "32px",
@@ -101,34 +105,35 @@ export default function RegistrationType() {
               height: "60px",
               top: "-400px",
               left: "840px",
-              borderColor: "#black", // Replace with desired border color
+              borderColor: "black", // Replace with desired border color
             }}
           >
             <PersonIcon />
           </IconButton>
-          <Link href="/customer registration">
+          <Link
+            href="/customer registration"
+            style={{ textDecoration: "none" }}
+          >
             <Button
-              type="submit"
               variant="contained"
               sx={{
                 m: 1,
                 width: "170px",
-
-                backgroundColor: "#1C5555", // Set the background color
+                backgroundColor: "#1C5555",
                 "&:hover": {
-                  backgroundColor: "#1C5555", // Set the hover color
+                  backgroundColor: "#1C5555",
                 },
-                position: "relative", // Set the position to relative
-                top: "-350px", // Modify the top value
-                left: "730px", // Modify the left value
+                position: "relative",
+                top: "-350px",
+                left: "730px",
               }}
             >
-              Customer
+              <span style={{ color: "white" }}>Customer</span>
             </Button>
           </Link>
 
           <IconButton
-            aria-label="People"
+            aria-label="PeopleAlt"
             style={{
               color: "#1C5555",
               fontSize: "24px",
@@ -142,22 +147,20 @@ export default function RegistrationType() {
             <PeopleAltIcon />
           </IconButton>
           <Button
-            type="submit"
             variant="contained"
             sx={{
               m: 1,
               width: "170px",
-
-              backgroundColor: "#1C5555", // Set the background color
+              backgroundColor: "#1C5555",
               "&:hover": {
-                backgroundColor: "#1C5555", // Set the hover color
+                backgroundColor: "#1C5555",
               },
-              position: "relative", // Set the position to relative
-              top: "-230px", // Modify the top value
-              left: "485px", // Modify the left value
+              position: "relative",
+              top: "-230px",
+              left: "485px",
             }}
           >
-            Ground Owner
+            <span style={{ color: "white" }}>Ground Owner</span>
           </Button>
         </form>
       </div>

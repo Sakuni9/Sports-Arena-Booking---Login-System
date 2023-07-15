@@ -1,91 +1,117 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import Typography from "@mui/material/Typography";
+import { useAuthStore } from "../store/store";
+import { generateOTP, verifyOTP } from "../helper/helper";
+import { useNavigate } from "react-router-dom";
 
 function Recovery() {
+  const [open, setOpen] = useState(true);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const { username } = useAuthStore((state) => state.auth);
+  const [OTP, setOTP] = useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    generateOTP(username).then((OTP) => {
+      console.log(OTP);
+      if (OTP) return toast.success("OTP has been sent to your email!");
+      return toast.error("Problem while generating OTP!");
+    });
+  }, [username]);
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    try {
+      let { status } = await verifyOTP({ username, code: OTP });
+      if (status === 201) {
+        toast.success("Verify Successfully!");
+        return navigate("/reset password");
+      }
+    } catch (error) {
+      return toast.error("Wrong OTP! Check email again!");
+    }
+  }
+
+  // Handler to resend OTP
+  function resendOTP() {
+    let sentPromise = generateOTP(username);
+
+    toast.promise(sentPromise, {
+      loading: "Sending...",
+      success: <b>OTP has been sent to your email!</b>,
+      error: <b>Could not send it!</b>,
+    });
+
+    sentPromise.then((OTP) => {
+      console.log(OTP);
+    });
+  }
+
   return (
-    // Main container
-    <div>
-      <header
-        style={{
-          background: "#eeeeee",
-          padding: "0 20px 0 20px",
-          position: "absolute",
-          width: "550px",
-          height: "390px",
-          left: "344px",
-          top: "120px",
-          borderRadius: "5px",
-        }}
-      >
-        {/* Heading */}
-        <h2
-          style={{
-            position: "absolute",
-            color: "#1C5555",
-            top: "5px",
-            left: "180px",
-            fontSize: "32px",
-          }}
+    <Dialog open={open} onClose={handleClose} sx={{ borderRadius: "10px" }}>
+      <DialogTitle style={{ textAlign: "center" }}>
+        <Typography
+          variant="h2"
+          component="div"
+          fontWeight="bold"
+          color="#1C5555"
+          fontSize="28px"
+          fontFamily="Inter"
         >
           Recovery
-        </h2>
-        <hr
-          style={{
-            position: "absolute",
-            display: "block",
-            marginTop: "85px",
-            marginBottom: "0.5em",
-            left: 0,
-            right: 0,
-            backgroundColor: "#eeee",
-            padding: "5px",
-            borderStyle: "inset",
-            borderWidth: "1px",
-          }}
-        />
-
-        {/* Paragraph explaining what the user needs to do */}
-        <div style={{ position: "absolute", top: "120px", left: "60px" }}>
-          Enter OTP to recover password <br />
+        </Typography>
+      </DialogTitle>
+      <DialogContent>
+        <form onSubmit={onSubmit}>
+          <span
+            style={{
+              marginLeft: "150px",
+              marginTop: "-10px",
+              position: "absolute",
+              fontWeight: "bold",
+            }}
+          >
+            Enter OTP to recover password
+          </span>
           <br />
-          Enter 6 digit OTP sent to your email address
-        </div>
+          <br />
+          <span>Enter 6-digit OTP sent to your email address</span>
 
-        <TextField
-          id="outlined-basic"
-          placeholder="OTP number"
-          variant="outlined"
-          sx={{
-            width: { sm: 40, md: 300 },
-            "&.MuiInputBase-root": {
-              height: 35,
-            },
-            position: "absolute",
-            marginTop: "200px",
-            marginLeft: "40px",
-          }}
-        />
-        {/* Button to initiate password reset */}
-        <div>
-          <Link to="/reset password">
+          <TextField
+            onChange={(e) => setOTP(e.target.value)}
+            id="outlined-basic"
+            placeholder="OTP number"
+            variant="outlined"
+            fullWidth
+            sx={{
+              width: "550px",
+              height: "50px",
+              marginBottom: "20px",
+            }}
+          />
+
+          <Link to="/reset password" style={{ textDecoration: "none" }}>
             <Button
               type="submit"
               variant="contained"
+              fullWidth
               sx={{
-                width: { sm: 70, md: 150 },
-                "&.MuiInputBase-root": {
-                  height: 65,
-                },
-                backgroundColor: "#1C5555", // Set the background color
+                backgroundColor: "#1C5555",
+                marginBottom: "10px",
                 "&:hover": {
-                  backgroundColor: "#1C5555", // Set the hover color
+                  backgroundColor: "#1C5555",
                 },
-                position: "absolute", // Set the position to relative
-                top: "290px", // Modify the top value
-                left: "160px", // Modify the left value
               }}
             >
               Recover
@@ -93,16 +119,33 @@ function Recovery() {
           </Link>
           <span
             style={{
+              marginLeft: "-390px",
+              marginTop: "50px",
               position: "absolute",
-              top: "330px",
             }}
           >
-            {" "}
-            Can't get OTP? Resend{" "}
+            Can't get OTP?{" "}
+            <button
+              onClick={resendOTP}
+              style={{
+                background: "none",
+                border: "none",
+                padding: "0",
+                color: "#1C5555",
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+            >
+              Resend
+            </button>
           </span>
-        </div>
-      </header>
-    </div>
+        </form>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Close</Button>
+      </DialogActions>
+    </Dialog>
   );
 }
+
 export default Recovery;

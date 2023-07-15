@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -9,11 +7,21 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
-import { Toaster } from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
+import avatar from "../assets/profile.png";
+import pngkey from "../assets/pngkey 1.png";
+import logo from "../assets/Arena Logo .png";
+import playground from "../assets/Group 15.png";
+import ground from "../assets/ground.png";
+import toast, { Toaster } from "react-hot-toast";
 import { useFormik } from "formik";
-import { passwordValidate } from "./validate";
+import { passwordValidate } from "../helper/validate";
+import useFetch from "../hooks/fetch.hook";
+import { useAuthStore } from "../store/store";
+import { verifyPassword } from "../helper/helper";
 
-const LoginPage = () => {
+function LoginPassword() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false); // Define the state variable for password visibility
 
   const handleClickShowPassword = () => {
@@ -25,18 +33,37 @@ const LoginPage = () => {
     // Define the event handler for mouse down on password input
     event.preventDefault();
   };
+  const { username } = useAuthStore((state) => state.auth);
+  const [{ isloading, apiData, serverError }] = useFetch(`user/${username}`);
   const formik = useFormik({
     initialValues: {
-      email: "ygsathsarani@gmail.com",
       password: "admin@123",
     },
     validate: passwordValidate,
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      console.log(values);
+      let loginPromise = verifyPassword({
+        username,
+        password: values.password,
+      });
+      toast.promise(loginPromise, {
+        loading: "Checking....",
+        success: <b>Login Successfully..!</b>,
+        error: <b>Passowrd Not Match!</b>,
+      });
+
+      loginPromise.then((res) => {
+        let { token } = res.data;
+        localStorage.setItem("token", token);
+        navigate("/display profile");
+      });
     },
   });
+
+  if (isloading) return <h4>isLoading</h4>;
+  if (serverError) return <h4>{serverError.message}</h4>;
+
   return (
     <div>
       <Toaster position="top-center" reverseOrder={false}></Toaster>
@@ -48,12 +75,12 @@ const LoginPage = () => {
         }}
       >
         <img
-          src="Group 15.png"
+          src={playground}
           alt="playground"
           style={{ width: "400px", height: "560px" }}
         />
         <img
-          src="Arena Logo .png"
+          src={logo}
           alt="logo"
           style={{
             width: "80px",
@@ -64,7 +91,7 @@ const LoginPage = () => {
           }}
         />
         <img
-          src="ground.png"
+          src={ground}
           alt="ground"
           style={{
             width: "220px",
@@ -75,7 +102,7 @@ const LoginPage = () => {
           }}
         />
         <img
-          src="pngkey 1.png"
+          src={pngkey}
           alt="pngkey"
           style={{
             width: "290px",
@@ -107,7 +134,7 @@ const LoginPage = () => {
             fontFamily: "Inter",
           }}
         >
-          Welcome back !
+          Welcome {apiData?.firstName || apiData?.username}
         </h2>
         <span
           style={{
@@ -121,31 +148,22 @@ const LoginPage = () => {
         >
           Explore More by connecting with us
         </span>
-        <TextField
-          {...formik.getFieldProps("email")}
-          sx={{
-            width: { sm: 100, md: 290 },
-            "& .MuiInputBase-root": {
-              height: 45,
-            },
-          }}
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
-          autoFocus
-          style={{
-            marginTop: "-400px",
-            marginBottom: "20px",
-            marginLeft: "740px",
-            fontFamily: "Inter",
-            fontSize: "14px",
-          }}
-        />
-
+        <div>
+          <img
+            src={apiData?.profile || avatar}
+            alt="avatar"
+            style={{
+              width: "100px",
+              height: "100px",
+              position: "absolute",
+              marginTop: "-417px",
+              marginLeft: "820px",
+              borderRadius: "50%",
+              border: "4px solid white",
+              boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)",
+            }}
+          />
+        </div>
         <FormControl
           {...formik.getFieldProps("password")}
           sx={{
@@ -157,9 +175,9 @@ const LoginPage = () => {
           variant="outlined"
           style={{
             position: "absolute",
-            marginTop: "-320px",
+            marginTop: "-290px",
             marginBottom: "20px",
-            marginLeft: "-290px",
+            marginLeft: "740px",
             fontFamily: "Inter",
             fontSize: "14px",
           }}
@@ -189,17 +207,6 @@ const LoginPage = () => {
           />
         </FormControl>
 
-        <Link
-          href="/forgotten password"
-          variant="body2"
-          style={{
-            position: "absolute",
-            marginTop: "-260px",
-            marginLeft: "-290px",
-          }}
-        >
-          Forgot password?
-        </Link>
         <Button
           type="submit"
           variant="contained"
@@ -214,7 +221,7 @@ const LoginPage = () => {
               backgroundColor: "#1C5555",
             },
             position: "absolute",
-            top: "415px",
+            top: "435px",
             left: "740px",
           }}
         >
@@ -234,7 +241,7 @@ const LoginPage = () => {
               backgroundColor: "#1C5555",
             },
             position: "absolute",
-            top: "460px",
+            top: "480px",
             left: "740px",
             color: "black",
           }}
@@ -245,17 +252,17 @@ const LoginPage = () => {
         <span
           style={{
             position: "relative",
-            top: "-110px",
-            left: "-260px",
+            top: "-100px",
+            left: "770px",
           }}
         >
-          Don't have an account{" "}
-          <Link href="/registration type" variant="body2">
-            Sign up
+          Forgot password?
+          <Link to="/forgotten password " variant="body2">
+            Recovery Now
           </Link>
         </span>
       </form>
     </div>
   );
-};
-export default LoginPage;
+}
+export default LoginPassword;

@@ -3,6 +3,11 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 
+import pngkey from "../assets/pngkey 1.png";
+import logo from "../assets/Arena Logo .png";
+import playground from "../assets/Group 15.png";
+import ground from "../assets/ground.png";
+
 export default function RegistrationCusDetails() {
   return (
     <div>
@@ -15,15 +20,15 @@ export default function RegistrationCusDetails() {
           }}
         >
           <img
-            src="Group 15.png"
+            src={playground}
             alt="playground"
             style={{ width: "400px", height: "560px" }}
           />
           <img
-            src="Arena Logo .png"
+            src={logo}
             alt="logo"
             style={{
-              width: "90px",
+              width: "80px",
               height: "50px",
               marginTop: "230px",
               marginBottom: "470px",
@@ -31,25 +36,25 @@ export default function RegistrationCusDetails() {
             }}
           />
           <img
-            src="explore .png"
+            src={ground}
             alt="ground"
             style={{
               width: "220px",
-              height: "200px",
-              marginTop: "200px",
-              marginBottom: "230px",
+              height: "120px",
+              marginTop: "230px",
+              marginBottom: "310px",
               marginLeft: "-20px",
             }}
           />
           <img
-            src="pngkey 1.png"
+            src={pngkey}
             alt="pngkey"
             style={{
               width: "290px",
               height: "290px",
 
               marginBottom: "-20px",
-              marginLeft: "-230px",
+              marginLeft: "-190px",
             }}
           />
         </div>
@@ -102,7 +107,7 @@ export default function RegistrationCusDetails() {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            placeholder="Enter your email address"
             name="email"
             autoComplete="email"
             autoFocus
@@ -125,7 +130,7 @@ export default function RegistrationCusDetails() {
             required
             fullWidth
             id="number"
-            label="Contact number"
+            placeholder="Enter your contact number"
             name="number"
             autoComplete="number"
             autoFocus
@@ -146,13 +151,13 @@ export default function RegistrationCusDetails() {
                 m: 1,
                 width: "170px",
 
-                backgroundColor: "#1C5555", // Set the background color
+                backgroundColor: "#1C5555",
                 "&:hover": {
-                  backgroundColor: "#1C5555", // Set the hover color
+                  backgroundColor: "#1C5555",
                 },
-                position: "relative", // Set the position to relative
-                top: "-200px", // Modify the top value
-                left: "-220px", // Modify the left value
+                position: "relative",
+                top: "-200px",
+                left: "-220px",
               }}
             >
               Submit
